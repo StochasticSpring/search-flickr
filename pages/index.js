@@ -5,6 +5,8 @@ import Footer from '@components/Footer'
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 
+const QUERY_DEBOUNCE_MS = 300;
+
 export default function Home() {
   const [userInput, setUserInput] = useState("");
 
