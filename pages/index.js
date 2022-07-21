@@ -63,12 +63,13 @@ export default function Home() {
                   minHeight: 120,
                 }}
               >
-                {/*<img src={item.media.m} alt={item.title} loading="lazy" />*/}
-                <ImageWithSkeleton
-                  src={item.media.m}
-                  alt={item.title}
-                  loading="lazy"
-                />
+                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  <ImageWithSkeleton
+                    src={item.media.m}
+                    alt={item.title}
+                    loading="lazy"
+                  />
+                </a>
                 <ImageListItemBar title={item.title} subtitle={item.author} />
               </ImageListItem>
             ))}
