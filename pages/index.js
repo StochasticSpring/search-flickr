@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -13,6 +15,7 @@ const QUERY_DEBOUNCE_MS = 300;
 
 export default function Home() {
   const theme = useTheme();
+  const matchesDownSm = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [userInput, setUserInput] = useState("");
   const [queryResultItems, setQueryResultItems] = useState([]);
@@ -37,7 +40,7 @@ export default function Home() {
   }, [debouncedUserInput]);
 
   return (
-    <Box container display="flex" flexDirection="column" alignItems="center">
+    <Container>
       <Typography variant="h3" sx={{ margin: theme.spacing(2) }}>
         Search the Flickr public feed!
       </Typography>
@@ -47,13 +50,19 @@ export default function Home() {
         placeholder="Search images by tag..."
         onChange={(e) => setUserInput(e.target.value)}
         value={userInput}
-        sx={{ maxWidth: "600px" }}
       />
       <Box>
         {!!queryResultItems.length && (
-          <ImageList variant="masonry" cols={3} gap={8} sx={{ width: 500 }}>
+          <ImageList
+            variant="masonry"
+            cols={matchesDownSm ? 2 : 3}
+            gap={8}
+          >
             {queryResultItems.map((item) => (
-              <ImageListItem key={item.media.m}>
+              <ImageListItem
+                key={item.media.m}
+                sx={{ width: { xs: "40vw", sm: "30vw", lg: 380 } }}
+              >
                 <img src={item.media.m} alt={item.title} loading="lazy" />
                 <ImageListItemBar title={item.title} subtitle={item.author} />
               </ImageListItem>
@@ -61,6 +70,6 @@ export default function Home() {
           </ImageList>
         )}
       </Box>
-    </Box>
+    </Container>
   );
 }
