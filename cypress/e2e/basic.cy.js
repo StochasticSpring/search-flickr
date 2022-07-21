@@ -4,10 +4,7 @@ describe("sample test", () => {
   });
 
   it("displays the resources text", () => {
-    cy.get("h1").contains("Search the Flickr public feed!");
-  });
-  it("displays the authorship text", () => {
-    cy.get("footer").contains("Made by Eugene Lai");
+    cy.get("h3").contains("Search the Flickr public feed!");
   });
   it("shows a search input with the correct placeholder and no input", () => {
     cy.get("input").should("have.value", "");
