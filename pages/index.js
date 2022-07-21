@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
+import ImageWithSkeleton from "@components/ImageWIthSkeleton";
 
 import useDebouncedValue from "../hooks/useDebouncedValue";
 
@@ -53,17 +54,21 @@ export default function Home() {
       />
       <Box>
         {!!queryResultItems.length && (
-          <ImageList
-            variant="masonry"
-            cols={matchesDownSm ? 2 : 3}
-            gap={8}
-          >
+          <ImageList variant="masonry" cols={matchesDownSm ? 2 : 3} gap={8}>
             {queryResultItems.map((item) => (
               <ImageListItem
                 key={item.media.m}
-                sx={{ width: { xs: "40vw", sm: "30vw", lg: 380 } }}
+                sx={{
+                  width: { xs: "40vw", sm: "30vw", lg: 380 },
+                  minHeight: 120,
+                }}
               >
-                <img src={item.media.m} alt={item.title} loading="lazy" />
+                {/*<img src={item.media.m} alt={item.title} loading="lazy" />*/}
+                <ImageWithSkeleton
+                  src={item.media.m}
+                  alt={item.title}
+                  loading="lazy"
+                />
                 <ImageListItemBar title={item.title} subtitle={item.author} />
               </ImageListItem>
             ))}
