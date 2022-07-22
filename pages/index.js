@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
+import LinearProgress from "@mui/material/LinearProgress";
 import ImageList from "@mui/material/ImageList";
 import ImageListItemWithExpansion from "@components/ListItemWithExpansion";
 import useDebouncedValue from "../hooks/useDebouncedValue";
@@ -14,12 +15,13 @@ const QUERY_DEBOUNCE_MS = 300;
 export default function Home() {
   const theme = useTheme();
   const matchesDownSm = useMediaQuery(theme.breakpoints.down("sm"));
-
+  const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [queryResultItems, setQueryResultItems] = useState([]);
   const debouncedUserInput = useDebouncedValue(userInput, QUERY_DEBOUNCE_MS);
 
   const fetchQueryResults = async (input) => {
+    setIsLoading(true);
     const response = await fetch(
       `/flickr/services/feeds/photos_public.gne?format=json&tags=${input}`
     );
@@ -29,6 +31,7 @@ export default function Home() {
     const jsonStr = bodyText.replace("jsonFlickrFeed(", "").slice(0, -1);
     const items = JSON.parse(jsonStr).items;
     setQueryResultItems(items);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -49,6 +52,11 @@ export default function Home() {
         onChange={(e) => setUserInput(e.target.value)}
         value={userInput}
       />
+      {isLoading && (
+        <Box sx={{ width: "100%" }}>
+          <LinearProgress color="inherit" />
+        </Box>
+      )}
       <Box>
         {!!queryResultItems.length && (
           <ImageList variant="masonry" cols={matchesDownSm ? 1 : 3} gap={8}>
