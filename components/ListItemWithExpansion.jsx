@@ -14,10 +14,7 @@ const ImageListItemWithExpansion = (props) => {
   const ImageListItemRef = useRef(null);
 
   return (
-    <ImageListItem
-      ref={ImageListItemRef}
-      {...otherProps}
-    >
+    <ImageListItem ref={ImageListItemRef} {...otherProps}>
       <a href={item.link} target="_blank" rel="noopener noreferrer">
         <ImageWithSkeleton src={item.media.m} alt={item.title} loading="lazy" />
       </a>
@@ -40,7 +37,7 @@ const ImageListItemWithExpansion = (props) => {
               >{`tags: ${item.tags}`}</Typography>
             </>
           }
-          sx={{ maxHeight: "100%", overflowY: "auto" }}
+          sx={{ maxHeight: "100%" }}
           onClick={(e) => {
             e.stopPropagation();
             setIsExpanded(false);
