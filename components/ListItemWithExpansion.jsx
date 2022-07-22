@@ -15,12 +15,6 @@ const ImageListItemWithExpansion = (props) => {
 
   return (
     <ImageListItem
-      onClick={(e) => {
-        if (isExpanded) {
-          e.preventDefault();
-          setIsExpanded(false);
-        }
-      }}
       ref={ImageListItemRef}
       {...otherProps}
     >
@@ -47,6 +41,10 @@ const ImageListItemWithExpansion = (props) => {
             </>
           }
           sx={{ maxHeight: "100%", overflowY: "auto" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsExpanded(false);
+          }}
         />
       </Slide>
       <Fade in={!isExpanded}>
@@ -63,7 +61,7 @@ const ImageListItemWithExpansion = (props) => {
           }
           onClick={(e) => {
             e.stopPropagation();
-            setIsExpanded(!isExpanded);
+            setIsExpanded(true);
           }}
         />
       </Fade>
