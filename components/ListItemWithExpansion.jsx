@@ -25,10 +25,16 @@ const ImageListItemWithExpansion = (props) => {
         container={ImageListItemRef.current}
       >
         <ImageListItemBar
-          title={item.title}
+          title={
+            <Typography variant="inherit" sx={{ whiteSpace: "normal" }}>
+              {item.title}
+            </Typography>
+          }
           subtitle={
             <>
-              <Typography variant="inherit">{`by: ${item.author}`}</Typography>
+              <Typography variant="inherit" sx={{ whiteSpace: "normal" }}>
+                {`by: ${item.author}`}
+              </Typography>
               <Typography variant="inherit">{`on: ${format(
                 parseISO(item.date_taken.split("T")[0]),
                 "do MMM, yyyy"
