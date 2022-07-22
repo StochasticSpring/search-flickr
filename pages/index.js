@@ -7,7 +7,6 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import ImageList from "@mui/material/ImageList";
 import ImageListItemWithExpansion from "@components/ListItemWithExpansion";
-
 import useDebouncedValue from "../hooks/useDebouncedValue";
 
 const QUERY_DEBOUNCE_MS = 300;
