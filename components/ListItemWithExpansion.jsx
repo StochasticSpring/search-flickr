@@ -5,16 +5,22 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import ImageWithSkeleton from "@components/ImageWIthSkeleton";
 import Slide from "@mui/material/Slide";
 import Fade from "@mui/material/Fade";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
 
 const ImageListItemWithExpansion = (props) => {
-  const { item, ...otherProps } = props;
+  const { item, isTouchDevice, ...otherProps } = props;
   const [isExpanded, setIsExpanded] = useState(false);
   const ImageListItemRef = useRef(null);
 
   return (
     <ImageListItem
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      onClick={(e) => {
+        if (isExpanded) {
+          e.preventDefault();
+          setIsExpanded(false);
+        }
+      }}
       ref={ImageListItemRef}
       {...otherProps}
     >
@@ -40,10 +46,26 @@ const ImageListItemWithExpansion = (props) => {
               >{`tags: ${item.tags}`}</Typography>
             </>
           }
+          sx={{ maxHeight: "100%", overflowY: "auto" }}
         />
       </Slide>
       <Fade in={!isExpanded}>
-        <ImageListItemBar title={item.title} subtitle={item.author} />
+        <ImageListItemBar
+          title={item.title}
+          subtitle={item.author}
+          actionIcon={
+            <IconButton
+              sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+              aria-label={`info about ${item.title}`}
+            >
+              <InfoIcon />
+            </IconButton>
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsExpanded(!isExpanded);
+          }}
+        />
       </Fade>
     </ImageListItem>
   );
