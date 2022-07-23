@@ -12,17 +12,17 @@ import { parseISO, format } from "date-fns";
 const ImageListItemWithExpansion = (props) => {
   const { item, isTouchDevice, ...otherProps } = props;
   const [isExpanded, setIsExpanded] = useState(false);
-  const ImageListItemRef = useRef(null);
+  const imageListItemRef = useRef(null);
 
   return (
-    <ImageListItem ref={ImageListItemRef} {...otherProps}>
+    <ImageListItem ref={imageListItemRef} {...otherProps}>
       <a href={item.link} target="_blank" rel="noopener noreferrer">
         <ImageWithSkeleton src={item.media.m} alt={item.title} loading="lazy" />
       </a>
       <Slide
         direction="up"
         in={isExpanded}
-        container={ImageListItemRef.current}
+        container={imageListItemRef.current}
       >
         <ImageListItemBar
           title={
