@@ -9,36 +9,21 @@ import LinearProgress from "@mui/material/LinearProgress";
 import ImageList from "@mui/material/ImageList";
 import ImageListItemWithExpansion from "@components/ListItemWithExpansion";
 import useDebouncedValue from "../hooks/useDebouncedValue";
+import useFlickrPublicFeed from "../hooks/useFlickrPublicFeed";
 
 const QUERY_DEBOUNCE_MS = 300;
 
 export default function Home() {
   const theme = useTheme();
   const matchesDownSm = useMediaQuery(theme.breakpoints.down("sm"));
-  const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState("");
-  const [queryResultItems, setQueryResultItems] = useState([]);
-  const debouncedUserInput = useDebouncedValue(userInput, QUERY_DEBOUNCE_MS).trim();
+  const debouncedUserInput = useDebouncedValue(
+    userInput,
+    QUERY_DEBOUNCE_MS
+  ).trim();
 
-  const fetchQueryResults = async (input) => {
-    setIsLoading(true);
-    const response = await fetch(
-      `/flickr/services/feeds/photos_public.gne?format=json&tags=${input}`
-    );
-    const bodyText = await response.text();
-
-    // Flickr returns a JSON wrapped in some extra text
-    const jsonStr = bodyText.replace("jsonFlickrFeed(", "").slice(0, -1);
-    const items = JSON.parse(jsonStr).items;
-    setQueryResultItems(items);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    if (debouncedUserInput.length > 0) {
-      fetchQueryResults(debouncedUserInput);
-    }
-  }, [debouncedUserInput]);
+  const { isLoading, queryResultItems } =
+    useFlickrPublicFeed(debouncedUserInput);
 
   return (
     <Container>
