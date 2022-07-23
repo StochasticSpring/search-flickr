@@ -7,7 +7,7 @@ import Slide from "@mui/material/Slide";
 import Fade from "@mui/material/Fade";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
-import { parseISO, format } from "date-fns";
+import humanizeDateShort from "../utils/humanizeDateShort";
 
 const ImageListItemWithExpansion = (props) => {
   const { item, isTouchDevice, ...otherProps } = props;
@@ -35,9 +35,8 @@ const ImageListItemWithExpansion = (props) => {
               <Typography variant="inherit" sx={{ whiteSpace: "normal" }}>
                 {`by: ${item.author}`}
               </Typography>
-              <Typography variant="inherit">{`on: ${format(
-                parseISO(item.date_taken.split("T")[0]),
-                "do MMM, yyyy"
+              <Typography variant="inherit">{`on: ${humanizeDateShort(
+                item.date_taken
               )}`}</Typography>
               <Typography
                 variant="inherit"
