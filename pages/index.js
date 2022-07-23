@@ -18,7 +18,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [queryResultItems, setQueryResultItems] = useState([]);
-  const debouncedUserInput = useDebouncedValue(userInput, QUERY_DEBOUNCE_MS);
+  const debouncedUserInput = useDebouncedValue(userInput, QUERY_DEBOUNCE_MS).trim();
 
   const fetchQueryResults = async (input) => {
     setIsLoading(true);
@@ -35,8 +35,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (debouncedUserInput.trim().length > 0) {
-      fetchQueryResults(debouncedUserInput.trim());
+    if (debouncedUserInput.length > 0) {
+      fetchQueryResults(debouncedUserInput);
     }
   }, [debouncedUserInput]);
 
