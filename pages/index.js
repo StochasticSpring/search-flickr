@@ -44,7 +44,12 @@ export default function Home() {
       )}
       <Box>
         {!!queryResultItems.length && (
-          <ImageList variant="masonry" cols={matchesDownSm ? 1 : 3} gap={8}>
+          <ImageList
+            variant="masonry"
+            cols={matchesDownSm ? 1 : 3}
+            gap={8}
+            sx={{ overflowY: "visible" }}
+          >
             {queryResultItems.map((item) => (
               <ImageListItemWithExpansion
                 item={item}
