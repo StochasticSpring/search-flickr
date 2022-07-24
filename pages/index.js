@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Typography } from "@mui/material";
@@ -22,8 +22,7 @@ export default function Home() {
     QUERY_DEBOUNCE_MS
   ).trim();
 
-  const { isLoading, queryResultItems } =
-    useFlickrPublicFeed(debouncedUserInput);
+  const { status, queryResultItems } = useFlickrPublicFeed(debouncedUserInput);
 
   return (
     <Container>
@@ -37,13 +36,18 @@ export default function Home() {
         onChange={(e) => setUserInput(e.target.value)}
         value={userInput}
       />
-      {isLoading && (
+      {status === "FETCHING" && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress color="inherit" />
         </Box>
       )}
       <Box>
-        {!!queryResultItems.length && (
+        {status === "FETCHED" && queryResultItems.length === 0 && (
+          <Typography variant="subtitle1" sx={{ margin: theme.spacing(1) }}>
+            Sorry I could not find anything with that tag
+          </Typography>
+        )}
+        {status === "FETCHED" && queryResultItems.length > 0 && (
           <ImageList
             variant="masonry"
             cols={matchesDownSm ? 1 : 3}

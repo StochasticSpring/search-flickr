@@ -26,7 +26,7 @@ describe("useFlickrPublicFeed", () => {
   it("should have the correct initial values", () => {
     const { result } = renderHook(() => useFlickrPublicFeed(""));
 
-    expect(result.current.isLoading).toBe(false);
+    expect(result.current.status).toBe("INITIAL");
     expect(result.current.queryResultItems).toEqual([]);
     expect(fetch).toHaveBeenCalledTimes(0);
   });
@@ -39,13 +39,13 @@ describe("useFlickrPublicFeed", () => {
     );
 
     expect(result.all).toEqual([
-      { isLoading: false, queryResultItems: [] },
-      { isLoading: true, queryResultItems: [] },
+      { status: "INITIAL", queryResultItems: [] },
+      { status: "FETCHING", queryResultItems: [] },
     ]);
     await waitForNextUpdate();
     expect(result.all.slice(2)).toEqual([
-      { isLoading: true, queryResultItems: [{ title: "my photo" }] },
-      { isLoading: false, queryResultItems: [{ title: "my photo" }] },
+      { status: "FETCHING", queryResultItems: [{ title: "my photo" }] },
+      { status: "FETCHED", queryResultItems: [{ title: "my photo" }] },
     ]);
     expect(fetch).toHaveBeenCalledTimes(1);
   });
