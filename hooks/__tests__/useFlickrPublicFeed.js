@@ -47,5 +47,6 @@ describe("useFlickrPublicFeed", () => {
       { isLoading: true, queryResultItems: [{ title: "my photo" }] },
       { isLoading: false, queryResultItems: [{ title: "my photo" }] },
     ]);
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
 });
