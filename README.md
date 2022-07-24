@@ -1,90 +1,111 @@
-# Next + Netlify Starter
+# Search Flickr
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/46648482-644c-4c80-bafb-872057e51b6b/deploy-status)](https://app.netlify.com/sites/next-dev-starter/deploys)
 
-This is a [Next.js](https://nextjs.org/) v12 project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and set up to be instantly deployed to [Netlify](https://url.netlify.com/SyTBPVamO)!
+## Documentation
 
-This project is a very minimal starter that includes 2 sample components, a global stylesheet, a `netlify.toml` for deployment, and a `jsconfig.json` for setting up absolute imports and aliases. It also includes the [Essential Next.js Build Plugin](https://github.com/netlify/netlify-plugin-nextjs), which will allow for you to implement features like Preview Mode, server-side rendering/incremental static regeneration via Netlify Functions, and internationalized routing.
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/next-netlify-starter&utm_source=github&utm_medium=nextstarter-cs&utm_campaign=devex-cs)
-
-(If you click this button, it will create a new repo for you that looks exactly like this one, and sets that repo up immediately for deployment on Netlify)
-
-## Table of Contents:
-
-- [Getting Started](#getting-started)
-- [Installation options](#installation-options)
+- [Introduction](#introduction)
+- [Dependencies](#dependencies)
+- [Development](#development)
 - [Testing](#testing)
-  - [Included Default Testing](#included-default-testing)
-  - [Removing Renovate](#removing-renovate)
-  - [Removing Cypress](#removing-cypress)
+- [Deployment](#deployment)
+- [Code Style](#code-style)
+- [Todos](#todos)
+- [Requirements](#requirements)
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+This is a simple React SPA written to satisfy these [requirements](#requirements). It was bootstrapped using Netlify's Next.js + create-react-app option.
 
-```bash
-npm run dev
-# or
-yarn dev
+## Dependencies
+
+### Libraries in use and their major versions:
+
+ - React 18
+ - Material UI 5 (React component library)
+ - Next.js 12 (React framework)
+ - Jest 28 (Unit testing)
+ - Cypress 10 (Integration testing)
+
+To install dependencies, run:
+
+```
+$ yarn
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Run the following to start development server:
 
-### Installation options
-
-**Option one:** One-click deploy
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/next-netlify-starter&utm_source=github&utm_medium=nextstarter-cs&utm_campaign=devex-cs)
-
-**Option two:** Manual clone
-
-1. Clone this repo: `git clone https://github.com/netlify-templates/next-netlify-starter.git`
-2. Navigate to the directory and run `npm install`
-3. Run `npm run dev`
-4. Make your changes
-5. Connect to [Netlify](https://url.netlify.com/Bk4UicocL) manually (the `netlify.toml` file is the one you'll need to make sure stays intact to make sure the export is done and pointed to the right stuff)
+```
+$ yarn dev
+```
 
 ## Testing
 
-### Included Default Testing
+### Unit Tests
 
-We’ve included some tooling that helps us maintain these templates. This template currently uses:
+Run the following to execute unit tests:
 
-- [Renovate](https://www.mend.io/free-developer-tools/renovate/) - to regularly update our dependencies
-- [Cypress](https://www.cypress.io/) - to run tests against how the template runs in the browser
-- [Cypress Netlify Build Plugin](https://github.com/cypress-io/netlify-plugin-cypress) - to run our tests during our build process
+```
+$ yarn jest
+```
+Unit tests are not _yet_ automated through Netlify
 
-If your team is not interested in this tooling, you can remove them with ease!
+### Integration Tests
 
-### Removing Renovate
+To execute integration tests locally, first make sure dev server is running, then run the following:
 
-In order to keep our project up-to-date with dependencies we use a tool called [Renovate](https://github.com/marketplace/renovate). If you’re not interested in this tooling, delete the `renovate.json` file and commit that onto your main branch.
-
-### Removing Cypress
-
-For our testing, we use [Cypress](https://www.cypress.io/) for end-to-end testing. This makes sure that we can validate that our templates are rendering and displaying as we’d expect. By default, we have Cypress not generate deploy links if our tests don’t pass. If you’d like to keep Cypress and still generate the deploy links, go into your `netlify.toml` and delete the plugin configuration lines:
-
-```diff
-[[plugins]]
-  package = "netlify-plugin-cypress"
--  [plugins.inputs.postBuild]
--    enable = true
--
--  [plugins.inputs]
--    enable = false 
+```
+$ yarn cypress run
 ```
 
-If you’d like to remove the `netlify-plugin-cypress` build plugin entirely, you’d need to delete the entire block above instead. And then make sure sure to remove the package from the dependencies using:
+Integration tests are automated through Netlify
 
-```bash
-npm uninstall -D netlify-plugin-cypress
+## Deployment
+
+Deployment is managed through Netlify. 
+
+Every PR is automatically deployed to the preview environment. Merged PRs are deployed to the production environment.
+
+## Code Style
+ - [ESLint](https://eslint.org/)
+ - [Prettier](https://prettier.io/)
+
+## Todos
+
+These are the things I would like to see done if I had more time to spend on this project: (in descending priority)
+
+ - automate jest in Netlify, probably with [this](https://github.com/UWHealth/netlify-plugin-jest)
+ - replace proxy/rewrite in package.json with proper CORS config
+ - handle Flickr API status error or timeout
+ - unit tests for `ListitemWithExpansion`
+ - integration tests covering search return and no-result case
+ - cosmetic improvements
+   - font sizes
+   - more precise layout
+   - make tags more prominent (chips perhaps?)
+ - solution for when there are so many tags it overflows the bar (not common)
+ - allow hitting "enter" to submit search query
+ - fix a slight glitch with the MUI animation with Chrome on iPhone
+
+## Requirements
+
 ```
+Create a web page using the Flickr public feed (https://www.flickr.com/services/feeds/docs/photos_public/) that allows users to search Flickr and see matching results.
+Results should be updated as the user types and should include the following attributes:
 
-And lastly if you’d like to remove Cypress entirely, delete the entire `cypress` folder and the `cypress.config.ts` file. Then remove the dependency using:
+● A thumbnail image
+● The author
+● The date taken
+● The tags
+● A link through to the full size image
 
-```bash
-npm uninstall -S cypress
+We value responsive UI/UX as well as modular/testable code.
+
+1) Please share the source code repository (e.g. on Github)
+2) Please host a live demo on any service you like (e.g. on Netlify)
+3) Please use React for the UI implementation
+4) Feel free to use a bootstrapper if you like (e.g. Create React App)
+5) Use the testing framework of your choice (e.g. Jest) 
 ```
